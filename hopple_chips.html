@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+<parameter name="file_text"><!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FoodPrint Audit | Hopple Eatapioca Chips - Smokey Barbeque</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&family=JetBrains+Mono:wght@500;800&display=swap');
+        
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background: linear-gradient(135deg, #fef3c7 0%, #fed7aa 50%, #fca5a5 100%);
+            background-attachment: fixed;
+            color: #0f172a; 
+        }
+        
+        .mono { font-family: 'JetBrains Mono', monospace; }
+        
+        .audit-card { 
+            border: 1px solid #e2e8f0; 
+            background: white; 
+            border-radius: 1.5rem; 
+            overflow: hidden; 
+            box-shadow: 0 10px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .audit-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 20px 35px -5px rgb(0 0 0 / 0.15), 0 12px 15px -6px rgb(0 0 0 / 0.1);
+        }
+        
+        .timeline-line { 
+            position: absolute; 
+            left: 19px; 
+            top: 0; 
+            bottom: 0; 
+            width: 3px; 
+            background: linear-gradient(180deg, #f97316 0%, #dc2626 50%, #b91c1c 100%);
+            border-radius: 2px;
+        }
+        
+        .nutrient-table td { 
+            padding: 10px 8px; 
+            font-size: 12px; 
+            border-bottom: 1px solid #f1f5f9; 
+            font-weight: 700; 
+        }
+        
+        .foodprint-accent { color: #f97316; }
+        .review-star { color: #fbbf24; font-size: 10px; }
+        
+        .timeline-header:hover {
+            background-color: #f8fafc;
+        }
+        
+        .timeline-details {
+            animation: slideDown 0.3s ease-out;
+        }
+        
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                max-height: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                max-height: 2000px;
+                transform: translateY(0);
+            }
+        }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+        }
+        
+        .pulse-glow {
+            animation: pulseGlow 2s infinite;
+        }
+        
+        @keyframes pulseGlow {
+            0%, 100% {
+                box-shadow: 0 0 20px rgba(249, 115, 22, 0.4);
+            }
+            50% {
+                box-shadow: 0 0 30px rgba(249, 115, 22, 0.6);
+            }
+        }
+        
+        .scan-next-btn {
+            background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .scan-next-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.5s;
+        }
+        
+        .scan-next-btn:hover::before {
+            left: 100%;
+        }
+        
+        .scan-next-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(249, 115, 22, 0.4);
+        }
+        
+        .floating {
+            animation: floating 3s ease-in-out infinite;
+        }
+        
+        @keyframes floating {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        .badge-shine {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .badge-shine::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            bottom: -50%;
+            left: -50%;
+            background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,0.3) 50%, rgba(255,255,255,0));
+            transform: rotateZ(60deg) translate(-5em, 7.5em);
+            animation: shine 3s infinite;
+        }
+        
+        @keyframes shine {
+            0% { transform: rotateZ(60deg) translate(-5em, 7.5em); }
+            100% { transform: rotateZ(60deg) translate(12em, -10em); }
+        }
+    </style>
+</head>
+<body class="pb-32">
+
+    <header class="gradient-bg text-white px-6 py-6 sticky top-0 z-50 flex justify-between items-center border-b-4 border-orange-300 shadow-2xl">
+        <div>
+            <h1 class="text-3xl md:text-4xl font-black tracking-tighter italic uppercase leading-none">Food<span class="text-orange-200">Print</span></h1>
+            <p class="mono text-[9px] md:text-[10px] tracking-[0.2em] text-orange-100 uppercase mt-1">Full-Spectrum Integrity Ledger</p>
+        </div>
+        <div class="text-right">
+            <p class="text-[9px] md:text-[10px] font-bold text-orange-200 uppercase">Audit ID: #HOP-BBQ-2026</p>
+            <p class="text-[11px] md:text-[12px] font-black text-white uppercase leading-none mt-1 badge-shine">✓ EXPORT QUALITY | ORGANIC PRODUCT </p>
+        </div>
+    </header>
+
+    <main class="max-w-3xl mx-auto space-y-6 p-4 md:p-8">
+
+        <section class="audit-card p-6 md:p-8">
+            <div class="flex flex-col md:flex-row gap-6 md:gap-8">
+                <div class="w-full md:w-1/2 aspect-square rounded-3xl overflow-hidden border-4 border-gradient-to-br from-orange-200 to-red-200 shadow-2xl bg-gradient-to-br from-slate-50 to-slate-100 floating">
+                    <img src="images/smokey-barbeque.png" class="w-full h-full object-contain hover:scale-105 transition-transform duration-500 p-4" alt="Hopple Eatapioca Smokey Barbeque Chips">
+                </div>
+                <div class="flex-1 space-y-4">
+                    <div>
+                        <p class="text-sm font-bold text-orange-600 uppercase tracking-wider mb-1">Hopple</p>
+                        <h2 class="text-4xl md:text-5xl font-black tracking-tighter italic uppercase leading-tight bg-gradient-to-r from-slate-900 to-orange-600 bg-clip-text text-transparent">Eatapioca</h2>
+                        <p class="text-lg font-bold text-slate-600 mt-1">Smokey Barbeque Chips</p>
+                    </div>
+                    <div class="flex flex-wrap gap-2">
+                        <div class="bg-gradient-to-br from-green-500 to-green-700 text-white px-3 py-1.5 rounded-xl shadow-lg badge-shine">
+                            <p class="text-[7px] font-black uppercase opacity-90">Status</p>
+                            <p class="text-xs font-black mono text-center">GLUTEN FREE</p>
+                        </div>
+                        <div class="gradient-bg text-white px-3 py-1.5 rounded-xl shadow-lg badge-shine">
+                            <p class="text-[7px] font-black uppercase opacity-90">Quality</p>
+                            <p class="text-xs font-black mono text-center">EXPORT GRADE</p>
+                        </div>
+                        <div class="bg-gradient-to-br from-blue-500 to-blue-700 text-white px-3 py-1.5 rounded-xl shadow-lg badge-shine">
+                            <p class="text-[7px] font-black uppercase opacity-90">Features</p>
+                            <p class="text-xs font-black mono text-center">THIN & CRISPY</p>
+                        </div>
+                        <div class="bg-gradient-to-br from-rose-500 to-rose-700 text-white px-3 py-1.5 rounded-xl shadow-lg badge-shine">
+                            <p class="text-[7px] font-black uppercase opacity-90">Diet</p>
+                            <p class="text-xs font-black mono text-center">ZERO TRANSFAT</p>
+                        </div>
+                    </div>
+                    <div class="bg-gradient-to-br from-slate-900 to-slate-800 text-white p-5 rounded-2xl shadow-2xl">
+                        <p class="text-[9px] font-black text-orange-400 uppercase">FoodPrint Integrity Score</p>
+                        <p class="text-5xl md:text-6xl font-black text-orange-400">895<span class="text-lg opacity-30 text-white">/900</span></p>
+                        <div class="mt-3 bg-slate-700 rounded-full h-2 overflow-hidden">
+                            <div class="gradient-bg h-full rounded-full" style="width: 99.4%;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="audit-card p-6 border-t-4 border-orange-500 hover:border-orange-400">
+                <h3 class="text-xs font-black text-orange-600 uppercase tracking-widest mb-4 flex items-center gap-2">
+                    <i class="fas fa-fire"></i>
+                    Flavor Profile
+                </h3>
+                <div class="space-y-3">
+                    <div>
+                        <p class="text-[10px] font-black uppercase text-slate-400">Taste Notes</p>
+                        <p class="text-sm font-bold text-slate-800">Bold smokey essence with savory barbeque undertones. Sweet, tangy, and slightly spicy finish.</p>
+                    </div>
+                    <div>
+                        <p class="text-[10px] font-black uppercase text-slate-400">Texture</p>
+                        <p class="text-sm font-bold text-slate-800">Ultra-thin wafer cut with perfect crunch. Light, crispy, and non-greasy finish.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="audit-card p-6 border-t-4 border-blue-500 hover:border-blue-400">
+                <h3 class="text-xs font-black text-blue-600 uppercase tracking-widest mb-4 flex items-center gap-2">
+                    <i class="fas fa-comment-dots"></i>
+                    Customer Reviews
+                </h3>
+                <div class="space-y-4">
+                    <div class="border-b border-slate-100 pb-2">
+                        <div class="flex justify-between items-center mb-1">
+                            <span class="text-[10px] font-black uppercase">Priya S.</span>
+                            <div><i class="fas fa-star review-star"></i><i class="fas fa-star review-star"></i><i class="fas fa-star review-star"></i><i class="fas fa-star review-star"></i><i class="fas fa-star review-star"></i></div>
+                        </div>
+                        <p class="text-[11px] text-slate-600 italic">"Best barbeque chips I've ever had! Guilt-free snacking at its finest."</p>
+                    </div>
+                    <div>
+                        <div class="flex justify-between items-center mb-1">
+                            <span class="text-[10px] font-black uppercase">Arjun M.</span>
+                            <div><i class="fas fa-star review-star"></i><i class="fas fa-star review-star"></i><i class="fas fa-star review-star"></i><i class="fas fa-star review-star"></i><i class="fas fa-star review-star"></i></div>
+                        </div>
+                        <p class="text-[11px] text-slate-600 italic">"Addictive smokey flavor! Perfect with evening tea. Kids love them too!"</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="audit-card p-8">
+            <h3 class="text-xs font-black text-slate-400 uppercase tracking-widest mb-8 border-b pb-2 flex items-center gap-2">
+                <i class="fas fa-timeline"></i>
+                Production Journey Ledger
+                <span class="text-[9px] font-normal text-slate-400 ml-auto">(Click to expand details)</span>
+            </h3>
+            <div class="relative space-y-6">
+                <div class="timeline-line"></div>
+                
+                <!-- Timeline Entry 1: Raw Material Sourcing -->
+                <div class="relative pl-12 timeline-entry">
+                    <div class="absolute left-0 w-10 h-10 bg-white border-2 border-orange-500 rounded-full flex items-center justify-center z-10 shadow-lg">
+                        <i class="fas fa-seedling text-orange-600 text-xs"></i>
+                    </div>
+                    <div class="bg-white border border-slate-200 rounded-2xl overflow-hidden hover:shadow-lg transition-shadow">
+                        <button class="w-full text-left p-4 timeline-header cursor-pointer" onclick="toggleTimeline(this)">
+                            <div class="flex items-start justify-between gap-4">
+                                <div class="flex-1">
+                                    <p class="mono text-[10px] font-bold text-orange-600 mb-1">15-JAN-2026 | 07:30 AM</p>
+                                    <h4 class="text-sm font-black uppercase text-slate-900">Premium Tapioca Sourcing</h4>
+                                    <p class="text-[11px] text-slate-500 mt-1">Direct Farmer Partnership, Kerala</p>
+                                </div>
+                                <i class="fas fa-chevron-down text-slate-400 transition-transform timeline-icon mt-2"></i>
+                            </div>
+                        </button>
+                        <div class="timeline-details hidden border-t border-slate-100 bg-slate-50 p-5">
+                            <div class="space-y-4">
+                                <!-- Process Images Gallery -->
+                                <div class="grid grid-cols-2 md:grid-cols-3 gap-3 mb-4">
+                                    <div class="aspect-square rounded-xl overflow-hidden border-2 border-orange-200 shadow-md">
+                                        <img src="images/farm1.webp" alt="Premium tapioca" class="w-full h-full object-cover hover:scale-110 transition-transform duration-300">
+                                    </div>
+                                    <div class="aspect-square rounded-xl overflow-hidden border-2 border-orange-200 shadow-md">
+                                        <img src="images/farm2.webp" alt="Farmer inspection" class="w-full h-full object-cover hover:scale-110 transition-transform duration-300">
+                                    </div>
+                                    <div class="aspect-square rounded-xl overflow-hidden border-2 border-orange-200 shadow-md">
+                                        <img src="images/farm3.jpeg" alt="Quality check" class="w-full h-full object-cover hover:scale-110 transition-transform duration-300">
+                                    </div>
+                                </div>
+                                
+                                <div>
+                                    <h5 class="text-[10px] font-black text-orange-600 uppercase mb-2 flex items-center gap-2">
+                                        <i class="fas fa-info-circle"></i> Sourcing Details
+                                    </h5>
+                                    <p class="text-xs text-slate-700 leading-relaxed">
+                                        <strong>Source:</strong> Premium-grade tapioca from certified farmers in Kollam and Alappuzha districts<br>
+                                        <strong>Quality Standards:</strong> High starch content (>80%), uniform size, pest-free certification<br>
+                                        <strong>Batch Volume:</strong> 5,000 kg premium tapioca roots<br>
+                                        <strong>Variety:</strong> Sree Visakham - known for superior chip-making properties<br>
+                                        <strong>Farmer Partnership:</strong> Direct procurement supporting 150+ local farmers<br>
+                                        <strong>Traceability:</strong> GPS-tagged farm locations, blockchain-enabled origin tracking
+                                    </p>
+                                </div>
+                                <div>
+                                    <h5 class="text-[10px] font-black text-orange-600 uppercase mb-2 flex items-center gap-2">
+                                        <i class="fas fa-leaf"></i> Sustainability Practices
+                                    </h5>
+                                    <p class="text-xs text-slate-700 leading-relaxed">
+                                        <strong>Farming Method:</strong> Organic cultivation with natural pest management<br>
+                                        <strong>Fair Trade:</strong> Farmers paid 25% above market rate<br>
+                                        <strong>Soil Health:</strong> Crop rotation and organic composting practices
+                                    </p>
+                                </div>
+                                <div class="flex items-start gap-3 bg-white p-3 rounded-xl border border-slate-200">
+                                    <i class="fas fa-map-marker-alt text-red-500 text-lg mt-0.5"></i>
+                                    <div class="flex-1">
+                                        <p class="text-[10px] font-black text-slate-600 uppercase mb-1">Farm Collective Location</p>
+                                        <p class="text-xs text-slate-700 font-bold">Certified Farmer Network</p>
+                                        <p class="text-[11px] text-slate-500">Kollam & Alappuzha Districts, Kerala</p>
+                                        <p class="text-[10px] text-slate-400 mono mt-1">Primary Hub: 8.8932°N, 76.6141°E</p>
+                                    </div>
+                                    <a href="https://maps.google.com/?q=8.8932,76.6141" target="_blank" 
+                                       class="bg-blue-600 text-white px-4 py-2 rounded-lg text-[10px] font-black uppercase hover:bg-blue-700 transition-colors flex items-center gap-2 whitespace-nowrap">
+                                        <i class="fas fa-location-arrow"></i> View Map
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Timeline Entry 2: Slicing & Processing -->
+                <div class="relative pl-12 timeline-entry">
+                    <div class="absolute left-0 w-10 h-10 bg-slate-900 rounded-full flex items-center justify-center z-10 shadow-lg">
+                        <i class="fas fa-industry text-orange-400 text-xs"></i>
+                    </div>
+                    <div class="bg-white border border-slate-200 rounded-2xl overflow-hidden hover:shadow-lg transition-shadow">
+                        <button class="w-full text-left p-4 timeline-header cursor-pointer" onclick="toggleTimeline(this)">
+                            <div class="flex items-start justify-between gap-4">
+                                <div class="flex-1">
+                                    <p class="mono text-[10px] font-bold text-slate-600 mb-1">16-JAN-2026 | 09:15 AM</p>
+                                    <h4 class="text-sm font-black uppercase text-slate-900">Ultra-Thin Slicing & Frying</h4>
+                                    <p class="text-[11px] text-slate-500 mt-1">State-of-the-Art Processing Unit</p>
+                                </div>
+                                <i class="fas fa-chevron-down text-slate-400 transition-transform timeline-icon mt-2"></i>
+                            </div>
+                        </button>
+                        <div class="timeline-details hidden border-t border-slate-100 bg-slate-50 p-5">
+                            <div class="space-y-4">
+                                <!-- Process Images Gallery -->
+                                <div class="grid grid-cols-2 md:grid-cols-3 gap-3 mb-4">
+                                    <div class="aspect-square rounded-xl overflow-hidden border-2 border-blue-200 shadow-md">
+                                        <img src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&q=80&w=400" alt="Processing facility" class="w-full h-full object-cover hover:scale-110 transition-transform duration-300">
+                                    </div>
+                                    <div class="aspect-square rounded-xl overflow-hidden border-2 border-blue-200 shadow-md">
+                                        <img src="https://images.unsplash.com/photo-1563906267088-b029e7101114?auto=format&fit=crop&q=80&w=400" alt="Slicing machinery" class="w-full h-full object-cover hover:scale-110 transition-transform duration-300">
+                                    </div>
+                                    <div class="aspect-square rounded-xl overflow-hidden border-2 border-blue-200 shadow-md">
+                                        <img src="https://images.unsplash.com/photo-1532634922-8fe0b757fb13?auto=format&fit=crop&q=80&w=400" alt="Quality monitoring" class="w-full h-full object-cover hover:scale-110 transition-transform duration-300">
+                                    </div>
+                                </div>
+                                
+                                <div>
+                                    <h5 class="text-[10px] font-black text-blue-600 uppercase mb-2 flex items-center gap-2">
+                                        <i class="fas fa-info-circle"></i> Processing Technology
+                                    </h5>
+                                    <p class="text-xs text-slate-700 leading-relaxed">
+                                        <strong>Slicing Method:</strong> Precision rotary slicer with laser thickness control (0.8-1.0mm)<br>
+                                        <strong>Washing:</strong> Triple-stage washing in purified water to remove excess starch<br>
+                                        <strong>Frying Process:</strong> Vacuum frying at controlled 120°C using premium palm oil<br>
+                                        <strong>Oil Quality:</strong> Food-grade refined palm oil, changed every 6 hours<br>
+                                        <strong>Frying Time:</strong> Precisely 3 minutes and 20 seconds for optimal crispiness<br>
+                                        <strong>De-oiling:</strong> Centrifugal de-oiling system reduces oil content to <25%
+                                    </p>
+                                </div>
+                                <div>
+                                    <h5 class="text-[10px] font-black text-blue-600 uppercase mb-2 flex items-center gap-2">
+                                        <i class="fas fa-shield-alt"></i> Food Safety Standards
+                                    </h5>
+                                    <p class="text-xs text-slate-700 leading-relaxed">
+                                        <strong>Certifications:</strong> FSSAI, ISO 22000:2018, HACCP certified facility<br>
+                                        <strong>Hygiene:</strong> Automated CIP (Clean-in-Place) systems, UV sterilization<br>
+                                        <strong>Worker Safety:</strong> Full PPE gear, HEPA-filtered air quality control
+                                    </p>
+                                </div>
+                                <div class="flex items-start gap-3 bg-white p-3 rounded-xl border border-slate-200">
+                                    <i class="fas fa-map-marker-alt text-red-500 text-lg mt-0.5"></i>
+                                    <div class="flex-1">
+                                        <p class="text-[10px] font-black text-slate-600 uppercase mb-1">Processing Unit</p>
+                                        <p class="text-xs text-slate-700 font-bold">Hopple Foods Manufacturing Facility</p>
+                                        <p class="text-[11px] text-slate-500">Kakkanad Industrial Area, Ernakulam, Kerala 682030</p>
+                                        <p class="text-[10px] text-slate-400 mono mt-1">Coordinates: 10.0144°N, 76.3503°E</p>
+                                    </div>
+                                    <a href="https://maps.google.com/?q=10.0144,76.3503" target="_blank" 
+                                       class="bg-blue-600 text-white px-4 py-2 rounded-lg text-[10px] font-black uppercase hover:bg-blue-700 transition-colors flex items-center gap-2 whitespace-nowrap">
+                                        <i class="fas fa-location-arrow"></i> View Map
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Timeline Entry 3: Flavor Development -->
+                <div class="relative pl-12 timeline-entry">
+                    <div class="absolute left-0 w-10 h-10 bg-white border-2 border-red-500 rounded-full flex items-center justify-center z-10 shadow-lg">
+                        <i class="fas fa-flask text-red-600 text-xs"></i>
+                    </div>
+                    <div class="bg-white border border-slate-200 rounded-2xl overflow-hidden hover:shadow-lg transition-shadow">
+                        <button class="w-full text-left p-4 timeline-header cursor-pointer" onclick="toggleTimeline(this)">
+                            <div class="flex items-start justify-between gap-4">
+                                <div class="flex-1">
+                                    <p class="mono text-[10px] font-bold text-slate-600 mb-1">16-JAN-2026 | 11:45 AM</p>
+                                    <h4 class="text-sm font-black uppercase text-slate-900">Smokey Barbeque Seasoning</h4>
+                                    <p class="text-[11px] text-slate-500 mt-1">Flavor Innovation Lab</p>
+                                </div>
+                                <i class="fas fa-chevron-down text-slate-400 transition-transform timeline-icon mt-2"></i>
+                            </div>
+                        </button>
+                        <div class="timeline-details hidden border-t border-slate-100 bg-slate-50 p-5">
+                            <div class="space-y-4">
+                                <div>
+                                    <h5 class="text-[10px] font-black text-red-600 uppercase mb-2 flex items-center gap-2">
+                                        <i class="fas fa-info-circle"></i> Flavor Formulation
+                                    </h5>
+                                    <p class="text-xs text-slate-700 leading-relaxed">
+                                        <strong>Signature Blend:</strong> Proprietary Hopple Smokey BBQ masala developed by expert food technologists<br>
+                                        <strong>Key Ingredients:</strong> Smoked paprika, garlic powder, onion powder, tomato powder, brown sugar, black pepper, natural smoke flavor<br>
+                                        <strong>Seasoning Method:</strong> Tumbler coating with electrostatic spray for even distribution<br>
+                                        <strong>Coating Weight:</strong> 3.2% of total chip weight for optimal flavor balance<br>
+                                        <strong>No Artificial Colors:</strong> All coloring from natural sources (paprika, tomato)<br>
+                                        <strong>MSG-Free:</strong> Natural umami from yeast extract and vegetable powder
+                                    </p>
+                                </div>
+                                <div>
+                                    <h5 class="text-[10px] font-black text-red-600 uppercase mb-2 flex items-center gap-2">
+                                        <i class="fas fa-microscope"></i> Quality Control
+                                    </h5>
+                                    <p class="text-xs text-slate-700 leading-relaxed">
+                                        <strong>Taste Panel:</strong> Every batch tested by trained sensory panel<br>
+                                        <strong>Consistency Check:</strong> Spectrophotometer analysis for color uniformity<br>
+                                        <strong>Flavor Intensity:</strong> Measured on 1-10 scale, maintained at 7.5 ± 0.3
+                                    </p>
+                                </div>
+                                <div class="flex items-start gap-3 bg-white p-3 rounded-xl border border-slate-200">
+                                    <i class="fas fa-map-marker-alt text-red-500 text-lg mt-0.5"></i>
+                                    <div class="flex-1">
+                                        <p class="text-[10px] font-black text-slate-600 uppercase mb-1">R&D Center</p>
+                                        <p class="text-xs text-slate-700 font-bold">Hopple Flavor Innovation Lab</p>
+                                        <p class="text-[11px] text-slate-500">Same premises as Manufacturing Unit</p>
+                                        <p class="text-[10px] text-slate-400 mono mt-1">Coordinates: 10.0144°N, 76.3503°E</p>
+                                    </div>
+                                    <a href="https://maps.google.com/?q=10.0144,76.3503" target="_blank" 
+                                       class="bg-blue-600 text-white px-4 py-2 rounded-lg text-[10px] font-black uppercase hover:bg-blue-700 transition-colors flex items-center gap-2 whitespace-nowrap">
+                                        <i class="fas fa-location-arrow"></i> View Map
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Timeline Entry 4: Quality Testing -->
+                <div class="relative pl-12 timeline-entry">
+                    <div class="absolute left-0 w-10 h-10 bg-white border-2 border-purple-500 rounded-full flex items-center justify-center z-10 shadow-lg">
+                        <i class="fas fa-microscope text-purple-600 text-xs"></i>
+                    </div>
+                    <div class="bg-white border border-slate-200 rounded-2xl overflow-hidden hover:shadow-lg transition-shadow">
+                        <button class="w-full text-left p-4 timeline-header cursor-pointer" onclick="toggleTimeline(this)">
+                            <div class="flex items-start justify-between gap-4">
+                                <div class="flex-1">
+                                    <p class="mono text-[10px] font-bold text-slate-600 mb-1">17-JAN-2026 | 10:30 AM</p>
+                                    <h4 class="text-sm font-black uppercase text-slate-900">Export Quality Testing</h4>
+                                    <p class="text-[11px] text-slate-500 mt-1">NABL Accredited Laboratory</p>
+                                </div>
+                                <i class="fas fa-chevron-down text-slate-400 transition-transform timeline-icon mt-2"></i>
+                            </div>
+                        </button>
+                        <div class="timeline-details hidden border-t border-slate-100 bg-slate-50 p-5">
+                            <div class="space-y-4">
+                                <!-- Process Images Gallery -->
+                                <div class="grid grid-cols-2 md:grid-cols-3 gap-3 mb-4">
+                                    <div class="aspect-square rounded-xl overflow-hidden border-2 border-purple-200 shadow-md">
+                                        <img src="https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?auto=format&fit=crop&q=80&w=400" alt="Laboratory testing" class="w-full h-full object-cover hover:scale-110 transition-transform duration-300">
+                                    </div>
+                                    <div class="aspect-square rounded-xl overflow-hidden border-2 border-purple-200 shadow-md">
+                                        <img src="https://images.unsplash.com/photo-1582719471137-c3967ffb1c42?auto=format&fit=crop&q=80&w=400" alt="Microscope analysis" class="w-full h-full object-cover hover:scale-110 transition-transform duration-300">
+                                    </div>
+                                    <div class="aspect-square rounded-xl overflow-hidden border-2 border-purple-200 shadow-md">
+                                        <img src="https://images.unsplash.com/photo-1628595351029-c2bf17511435?auto=format&fit=crop&q=80&w=400" alt="Test results" class="w-full h-full object-cover hover:scale-110 transition-transform duration-300">
+                                    </div>
+                                </div>
+                                
+                                <div>
+                                    <h5 class="text-[10px] font-black text-purple-600 uppercase mb-2 flex items-center gap-2">
+                                        <i class="fas fa-info-circle"></i> Comprehensive Testing
+                                    </h5>
+                                    <p class="text-xs text-slate-700 leading-relaxed">
+                                        <strong>Microbiological:</strong> Total plate count, E. coli, Salmonella, Yeast & Mold - All passed<br>
+                                        <strong>Chemical Analysis:</strong> Moisture (2.1%), oil content (24.3%), salt (1.8%)<br>
+                                        <strong>Trans Fat:</strong> Zero trans fat verified (< 0.2g per 100g)<br>
+                                        <strong>Heavy Metals:</strong> Lead, Cadmium, Mercury, Arsenic - Below detection limits<br>
+                                        <strong>Allergens:</strong> Gluten-free certified (< 20 ppm), no cross-contamination<br>
+                                        <strong>Shelf Life:</strong> Accelerated stability testing confirms 6-month freshness
+                                    </p>
+                                </div>
+                                <div>
+                                    <h5 class="text-[10px] font-black text-purple-600 uppercase mb-2 flex items-center gap-2">
+                                        <i class="fas fa-certificate"></i> Export Certifications
+                                    </h5>
+                                    <p class="text-xs text-slate-700 leading-relaxed">
+                                        <strong>FSSAI License:</strong> 10119047001234<br>
+                                        <strong>Export Certificate:</strong> APEDA registered, EU compliant<br>
+                                        <strong>Test Report:</strong> LAB/2026/HOP/BBQ-895
+                                    </p>
+                                </div>
+                                <div class="flex items-start gap-3 bg-white p-3 rounded-xl border border-slate-200">
+                                    <i class="fas fa-map-marker-alt text-red-500 text-lg mt-0.5"></i>
+                                    <div class="flex-1">
+                                        <p class="text-[10px] font-black text-slate-600 uppercase mb-1">Testing Facility</p>
+                                        <p class="text-xs text-slate-700 font-bold">Kerala State Food Testing Laboratory</p>
+                                        <p class="text-[11px] text-slate-500">Medical College P.O., Thiruvananthapuram, Kerala 695011</p>
+                                        <p class="text-[10px] text-slate-400 mono mt-1">Coordinates: 8.5265°N, 76.9366°E</p>
+                                    </div>
+                                    <a href="https://maps.google.com/?q=8.5265,76.9366" target="_blank" 
+                                       class="bg-blue-600 text-white px-4 py-2 rounded-lg text-[10px] font-black uppercase hover:bg-blue-700 transition-colors flex items-center gap-2 whitespace-nowrap">
+                                        <i class="fas fa-location-arrow"></i> View Map
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Timeline Entry 5: Packaging -->
+                <div class="relative pl-12 timeline-entry">
+                    <div class="absolute left-0 w-10 h-10 bg-white border-2 border-green-500 rounded-full flex items-center justify-center z-10 shadow-lg">
+                        <i class="fas fa-box text-green-600 text-xs"></i>
+                    </div>
+                    <div class="bg-white border border-slate-200 rounded-2xl overflow-hidden hover:shadow-lg transition-shadow">
+                        <button class="w-full text-left p-4 timeline-header cursor-pointer" onclick="toggleTimeline(this)">
+                            <div class="flex items-start justify-between gap-4">
+                                <div class="flex-1">
+                                    <p class="mono text-[10px] font-bold text-slate-600 mb-1">18-JAN-2026 | 02:20 PM</p>
+                                    <h4 class="text-sm font-black uppercase text-slate-900">Premium Packaging</h4>
+                                    <p class="text-[11px] text-slate-500 mt-1">Automated Packaging Line</p>
+                                </div>
+                                <i class="fas fa-chevron-down text-slate-400 transition-transform timeline-icon mt-2"></i>
+                            </div>
+                        </button>
+                        <div class="timeline-details hidden border-t border-slate-100 bg-slate-50 p-5">
+                            <div class="space-y-4">
+                                <div>
+                                    <h5 class="text-[10px] font-black text-green-600 uppercase mb-2 flex items-center gap-2">
+                                        <i class="fas fa-info-circle"></i> Packaging Technology
+                                    </h5>
+                                    <p class="text-xs text-slate-700 leading-relaxed">
+                                        <strong>Pouch Material:</strong> Metallized BOPP (Biaxially Oriented Polypropylene) with high barrier properties<br>
+                                        <strong>Gas Flushing:</strong> Nitrogen flush packaging to prevent oxidation and extend crunch<br>
+                                        <strong>Seal Integrity:</strong> Heat-sealed with leak detection system<br>
+                                        <strong>Net Weight:</strong> 50g per pouch (± 2g tolerance)<br>
+                                        <strong>Batch Coding:</strong> Laser-printed MFD, expiry, batch number, and QR code<br>
+                                        <strong>QR Integration:</strong> FoodPrint blockchain traceability system
+                                    </p>
+                                </div>
+                                <div>
+                                    <h5 class="text-[10px] font-black text-green-600 uppercase mb-2 flex items-center gap-2">
+                                        <i class="fas fa-recycle"></i> Sustainability
+                                    </h5>
+                                    <p class="text-xs text-slate-700 leading-relaxed">
+                                        <strong>Eco Printing:</strong> Water-based inks, no harmful solvents<br>
+                                        <strong>Recyclability:</strong> Working on 100% recyclable packaging by 2027<br>
+                                        <strong>Carbon Tracking:</strong> 0.18 kg CO2e per pack
+                                    </p>
+                                </div>
+                                <div class="flex items-start gap-3 bg-white p-3 rounded-xl border border-slate-200">
+                                    <i class="fas fa-map-marker-alt text-red-500 text-lg mt-0.5"></i>
+                                    <div class="flex-1">
+                                        <p class="text-[10px] font-black text-slate-600 uppercase mb-1">Packaging Unit</p>
+                                        <p class="text-xs text-slate-700 font-bold">Hopple Automated Packaging Facility</p>
+                                        <p class="text-[11px] text-slate-500">Kakkanad Industrial Area, Ernakulam, Kerala 682030</p>
+                                        <p class="text-[10px] text-slate-400 mono mt-1">Coordinates: 10.0144°N, 76.3503°E</p>
+                                    </div>
+                                    <a href="https://maps.google.com/?q=10.0144,76.3503" target="_blank" 
+                                       class="bg-blue-600 text-white px-4 py-2 rounded-lg text-[10px] font-black uppercase hover:bg-blue-700 transition-colors flex items-center gap-2 whitespace-nowrap">
+                                        <i class="fas fa-location-arrow"></i> View Map
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Timeline Entry 6: Distribution -->
+                <div class="relative pl-12 timeline-entry">
+                    <div class="absolute left-0 w-10 h-10 bg-white border-2 border-blue-500 rounded-full flex items-center justify-center z-10 shadow-lg">
+                        <i class="fas fa-truck text-blue-600 text-xs"></i>
+                    </div>
+                    <div class="bg-white border border-slate-200 rounded-2xl overflow-hidden hover:shadow-lg transition-shadow">
+                        <button class="w-full text-left p-4 timeline-header cursor-pointer" onclick="toggleTimeline(this)">
+                            <div class="flex items-start justify-between gap-4">
+                                <div class="flex-1">
+                                    <p class="mono text-[10px] font-bold text-slate-600 mb-1">20-JAN-2026 | 08:00 AM</p>
+                                    <h4 class="text-sm font-black uppercase text-slate-900">Nationwide Distribution</h4>
+                                    <p class="text-[11px] text-slate-500 mt-1">Premium Retail Partners</p>
+                                </div>
+                                <i class="fas fa-chevron-down text-slate-400 transition-transform timeline-icon mt-2"></i>
+                            </div>
+                        </button>
+                        <div class="timeline-details hidden border-t border-slate-100 bg-slate-50 p-5">
+                            <div class="space-y-4">
+                                <div>
+                                    <h5 class="text-[10px] font-black text-blue-600 uppercase mb-2 flex items-center gap-2">
+                                        <i class="fas fa-info-circle"></i> Distribution Network
+                                    </h5>
+                                    <p class="text-xs text-slate-700 leading-relaxed">
+                                        <strong>Coverage:</strong> Available in 500+ stores across Kerala, Karnataka, Tamil Nadu<br>
+                                        <strong>Retail Partners:</strong> Reliance Fresh, Big Bazaar, Spencer's, Metro, Lulu, local premium stores<br>
+                                        <strong>Transportation:</strong> Temperature-controlled vehicles (15-25°C)<br>
+                                        <strong>Delivery Time:</strong> 24-48 hours from factory to retail shelf<br>
+                                        <strong>Inventory System:</strong> Real-time stock tracking, FIFO management<br>
+                                        <strong>Pricing:</strong> MRP ₹20 per 50g pack (₹400/kg)
+                                    </p>
+                                </div>
+                                <div>
+                                    <h5 class="text-[10px] font-black text-blue-600 uppercase mb-2 flex items-center gap-2">
+                                        <i class="fas fa-shopping-cart"></i> Consumer Access
+                                    </h5>
+                                    <p class="text-xs text-slate-700 leading-relaxed">
+                                        <strong>Online Availability:</strong> Amazon, Flipkart, BigBasket, JioMart, Blinkit<br>
+                                        <strong>Combo Packs:</strong> Assorted flavor packs available<br>
+                                        <strong>Customer Care:</strong> 1800-XXX-XXXX, support@hopplefoods.com
+                                    </p>
+                                </div>
+                                <div class="bg-orange-50 border border-orange-200 rounded-xl p-4">
+                                    <h5 class="text-[10px] font-black text-orange-700 uppercase mb-2 flex items-center gap-2">
+                                        <i class="fas fa-gift"></i> Available Flavors
+                                    </h5>
+                                    <div class="grid grid-cols-2 gap-2 text-[11px] font-bold">
+                                        <div class="flex items-center gap-2">
+                                            <i class="fas fa-check-circle text-orange-500"></i>
+                                            <span>Classic Salted</span>
+                                        </div>
+                                        <div class="flex items-center gap-2">
+                                            <i class="fas fa-check-circle text-orange-500"></i>
+                                            <span>Masala Munch</span>
+                                        </div>
+                                        <div class="flex items-center gap-2">
+                                            <i class="fas fa-check-circle text-red-500"></i>
+                                            <span>Smokey Barbeque</span>
+                                        </div>
+                                        <div class="flex items-center gap-2">
+                                            <i class="fas fa-check-circle text-orange-500"></i>
+                                            <span>Peri Peri</span>
+                                        </div>
+                                        <div class="flex items-center gap-2">
+                                            <i class="fas fa-check-circle text-orange-500"></i>
+                                            <span>Cream & Onion</span>
+                                        </div>
+                                        <div class="flex items-center gap-2">
+                                            <i class="fas fa-check-circle text-orange-500"></i>
+                                            <span>Tangy Tomato</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <section class="audit-card p-8">
+            <h3 class="text-xs font-black text-slate-400 uppercase tracking-widest mb-6 border-b pb-2 flex justify-between">
+                <span class="flex items-center gap-2"><i class="fas fa-apple-alt"></i>Nutritional Information</span>
+                <span class="mono text-[10px]">Per 100g</span>
+            </h3>
+            <table class="w-full nutrient-table">
+                <thead>
+                    <tr class="bg-slate-50 text-[10px] text-slate-400 uppercase">
+                        <th class="text-left py-2">Nutrient</th><th class="text-right">Amount</th><th class="text-right">Daily Value %</th>
+                    </tr>
+                </thead>
+                <tbody class="text-slate-700 font-bold">
+                    <tr><td>Energy</td><td class="text-right">518 kcal</td><td class="text-right">26%</td></tr>
+                    <tr><td>Total Fat</td><td class="text-right">24.5 g</td><td class="text-right">37%</td></tr>
+                    <tr><td>Saturated Fat</td><td class="text-right">11.2 g</td><td class="text-right">56%</td></tr>
+                    <tr><td>Trans Fat</td><td class="text-right">0 g</td><td class="text-right">0%</td></tr>
+                    <tr><td>Carbohydrates</td><td class="text-right">68.3 g</td><td class="text-right">23%</td></tr>
+                    <tr><td>Dietary Fiber</td><td class="text-right">2.8 g</td><td class="text-right">11%</td></tr>
+                    <tr><td>Protein</td><td class="text-right">1.4 g</td><td class="text-right">3%</td></tr>
+                    <tr><td>Sodium</td><td class="text-right">420 mg</td><td class="text-right">18%</td></tr>
+                </tbody>
+            </table>
+            <p class="text-[10px] text-slate-500 mt-4 italic text-center">*Percent Daily Values are based on a 2000 calorie diet</p>
+        </section>
+
+        <section class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="audit-card p-6 bg-gradient-to-br from-green-50 to-green-100 border-l-4 border-green-500">
+                <h4 class="text-[10px] font-black text-green-700 uppercase mb-2 text-center underline flex items-center justify-center gap-2">
+                    <i class="fas fa-heart"></i>
+                    Health Benefits
+                </h4>
+                <p class="text-[10px] text-slate-700 leading-relaxed font-bold italic text-center">Gluten-Free | Zero Trans Fat | Natural Ingredients | Low Glycemic Index | Made from Tapioca</p>
+            </div>
+            <div class="audit-card p-6 bg-gradient-to-br from-blue-50 to-blue-100 border-l-4 border-blue-500">
+                <h4 class="text-[10px] font-black text-blue-700 uppercase mb-2 text-center underline flex items-center justify-center gap-2">
+                    <i class="fas fa-award"></i>
+                    Quality Promise
+                </h4>
+                <p class="text-[10px] text-slate-700 leading-relaxed font-bold italic text-center">Export Quality Standards | FSSAI Certified | No MSG | No Artificial Colors</p>
+            </div>
+        </section>
+
+        <section class="audit-card p-6 md:p-8 bg-gradient-to-br from-orange-50 to-red-50 border-2 border-orange-200">
+            <div class="text-center space-y-3">
+                <div class="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-orange-500 to-red-600 rounded-full shadow-lg mb-2">
+                    <i class="fas fa-store-alt text-white text-2xl"></i>
+                </div>
+                <h4 class="font-black text-orange-900 text-xl md:text-2xl uppercase leading-none">
+                    Find Hopple Near You
+                </h4>
+                <p class="text-xs md:text-sm text-orange-700 font-bold">Available at premium retail stores & online platforms nationwide</p>
+                <div class="flex flex-wrap justify-center gap-3 mt-4">
+                    <span class="bg-white px-4 py-2 rounded-lg text-[10px] font-black text-slate-700 shadow">Reliance Fresh</span>
+                    <span class="bg-white px-4 py-2 rounded-lg text-[10px] font-black text-slate-700 shadow">Big Bazaar</span>
+                    <span class="bg-white px-4 py-2 rounded-lg text-[10px] font-black text-slate-700 shadow">Amazon</span>
+                    <span class="bg-white px-4 py-2 rounded-lg text-[10px] font-black text-slate-700 shadow">Flipkart</span>
+                    <span class="bg-white px-4 py-2 rounded-lg text-[10px] font-black text-slate-700 shadow">BigBasket</span>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="fixed bottom-0 left-0 right-0 p-4 bg-white/95 backdrop-blur-xl border-t-2 border-orange-100 shadow-2xl z-50">
+        <div class="max-w-3xl mx-auto flex gap-3">
+            <a href="index.html" class="flex-1 scan-next-btn text-white py-4 px-6 rounded-2xl font-black text-xs md:text-sm uppercase tracking-widest active:scale-95 transition-all flex items-center justify-center gap-3 pulse-glow">
+                <i class="fas fa-qrcode text-xl md:text-2xl"></i>
+                <span>Scan Next Product</span>
+                <i class="fas fa-arrow-right"></i>
+            </a>
+        </div>
+    </footer>
+
+    <script>
+        function toggleTimeline(button) {
+            const details = button.nextElementSibling;
+            const icon = button.querySelector('.timeline-icon');
+            
+            if (details.classList.contains('hidden')) {
+                details.classList.remove('hidden');
+                icon.style.transform = 'rotate(180deg)';
+            } else {
+                details.classList.add('hidden');
+                icon.style.transform = 'rotate(0deg)';
+            }
+        }
+    </script>
+
+</body>
+</html>

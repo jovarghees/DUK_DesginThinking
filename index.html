@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FoodPrint - Track Your Food Journey</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap');
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+        }
+        .foodprint-accent { color: #10b981; }
+        #reader {
+            border-radius: 1rem;
+            overflow: hidden;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+        .scan-btn {
+            transition: all 0.3s ease;
+        }
+        .scan-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(16, 185, 129, 0.3);
+        }
+        .pulse-ring {
+            animation: pulse-ring 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        @keyframes pulse-ring {
+            0%, 100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+            50% {
+                opacity: 0.5;
+                transform: scale(1.05);
+            }
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
+
+    <!-- Header -->
+    <header class="bg-white shadow-sm sticky top-0 z-50">
+        <div class="max-w-4xl mx-auto px-4 py-4 flex items-center justify-center">
+            <h1 class="text-3xl md:text-4xl font-black tracking-tighter italic uppercase">
+                Food<span class="foodprint-accent">Print</span>
+            </h1>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-1 flex items-center justify-center p-4">
+        <div class="w-full max-w-2xl">
+            
+            <!-- Logo/Icon Section -->
+            <div class="text-center mb-8">
+                <div class="inline-flex items-center justify-center w-24 h-24 bg-gradient-to-br from-emerald-400 to-emerald-600 rounded-full shadow-2xl mb-4 pulse-ring">
+                    <i class="fas fa-qrcode text-white text-4xl"></i>
+                </div>
+                <h2 class="text-2xl md:text-3xl font-bold text-slate-800 mb-2">
+                    Track Your Food Journey
+                </h2>
+                <p class="text-slate-600 text-sm md:text-base">
+                    Scan the QR code on your package to see its complete journey from farm to table
+                </p>
+            </div>
+
+            <!-- Scanner Container -->
+            <div class="bg-white rounded-3xl shadow-2xl p-6 md:p-8 mb-6">
+                
+                <!-- Scanner Display -->
+                <div id="scanner-container" class="mb-6">
+                    <div id="reader" class="hidden"></div>
+                    
+                    <!-- Initial State -->
+                    <div id="initial-state" class="text-center py-12">
+                        <div class="w-32 h-32 mx-auto mb-6 border-4 border-dashed border-slate-300 rounded-2xl flex items-center justify-center">
+                            <i class="fas fa-camera text-slate-400 text-5xl"></i>
+                        </div>
+                        <p class="text-slate-500 text-sm">
+                            Click the button below to start scanning
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Scan Button -->
+                <button 
+                    id="scan-btn" 
+                    class="scan-btn w-full bg-gradient-to-r from-emerald-500 to-emerald-600 text-white font-bold py-4 px-8 rounded-2xl shadow-lg flex items-center justify-center gap-3 text-lg">
+                    <i class="fas fa-qrcode text-xl"></i>
+                    <span id="scan-btn-text">Start Scanning</span>
+                </button>
+
+                <!-- Manual Entry Option -->
+                <div class="mt-6 text-center">
+                    <button id="manual-entry-btn" class="text-sm text-slate-600 hover:text-emerald-600 font-semibold flex items-center justify-center gap-2 mx-auto">
+                        <i class="fas fa-keyboard"></i>
+                        Enter Product Code Manually
+                    </button>
+                </div>
+
+                <!-- Manual Entry Form (Hidden by default) -->
+                <div id="manual-entry-form" class="hidden mt-6">
+                    <div class="flex gap-2">
+                        <input 
+                            type="text" 
+                            id="product-code-input"
+                            placeholder="Enter product code (e.g., 88201)"
+                            class="flex-1 px-4 py-3 border-2 border-slate-300 rounded-xl focus:border-emerald-500 focus:outline-none"
+                        />
+                        <button 
+                            id="submit-code-btn"
+                            class="bg-emerald-500 text-white px-6 py-3 rounded-xl font-bold hover:bg-emerald-600">
+                            Go
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Status Messages -->
+                <div id="status-message" class="hidden mt-4 p-4 rounded-xl"></div>
+            </div>
+
+            <!-- Info Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-center">
+                <div class="bg-white/80 backdrop-blur rounded-2xl p-4 shadow">
+                    <i class="fas fa-shield-halved text-emerald-500 text-2xl mb-2"></i>
+                    <h3 class="font-bold text-sm text-slate-800">Verified</h3>
+                    <p class="text-xs text-slate-600">100% Authentic</p>
+                </div>
+                <div class="bg-white/80 backdrop-blur rounded-2xl p-4 shadow">
+                    <i class="fas fa-route text-emerald-500 text-2xl mb-2"></i>
+                    <h3 class="font-bold text-sm text-slate-800">Traceable</h3>
+                    <p class="text-xs text-slate-600">Full Journey</p>
+                </div>
+                <div class="bg-white/80 backdrop-blur rounded-2xl p-4 shadow">
+                    <i class="fas fa-leaf text-emerald-500 text-2xl mb-2"></i>
+                    <h3 class="font-bold text-sm text-slate-800">Transparent</h3>
+                    <p class="text-xs text-slate-600">Complete Info</p>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-slate-200 py-6 mt-8">
+        <div class="max-w-4xl mx-auto px-4 text-center">
+            <p class="text-xs text-slate-500">
+                © 2026 FoodPrint. Empowering transparency in food production.
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        let html5QrCode;
+        let isScanning = false;
+
+        const scanBtn = document.getElementById('scan-btn');
+        const scanBtnText = document.getElementById('scan-btn-text');
+        const readerDiv = document.getElementById('reader');
+        const initialState = document.getElementById('initial-state');
+        const statusMessage = document.getElementById('status-message');
+        const manualEntryBtn = document.getElementById('manual-entry-btn');
+        const manualEntryForm = document.getElementById('manual-entry-form');
+        const productCodeInput = document.getElementById('product-code-input');
+        const submitCodeBtn = document.getElementById('submit-code-btn');
+
+        // Product code mapping - add your products here
+        const productMap = {
+            '88201': 'index_eatapioca.html',
+            'eatapioca': 'index_eatapioca.html',
+            'TAP-88201': 'index_eatapioca.html',
+            // Add more products here as needed
+            // 'PRODUCT_CODE': 'product_page.html',
+        };
+
+        function showStatus(message, type = 'info') {
+            statusMessage.className = `mt-4 p-4 rounded-xl ${
+                type === 'success' ? 'bg-emerald-50 text-emerald-800 border border-emerald-200' :
+                type === 'error' ? 'bg-red-50 text-red-800 border border-red-200' :
+                'bg-blue-50 text-blue-800 border border-blue-200'
+            }`;
+            statusMessage.innerHTML = `
+                <div class="flex items-center gap-2">
+                    <i class="fas ${type === 'success' ? 'fa-check-circle' : type === 'error' ? 'fa-exclamation-circle' : 'fa-info-circle'}"></i>
+                    <span class="text-sm font-semibold">${message}</span>
+                </div>
+            `;
+            statusMessage.classList.remove('hidden');
+        }
+
+        function redirectToProduct(code) {
+            // Extract product code from QR data if it's a URL or complex string
+            let productCode = code;
+            
+            // If it's a URL, try to extract the product code
+            if (code.includes('http') || code.includes('www')) {
+                const urlParts = code.split('/');
+                productCode = urlParts[urlParts.length - 1].replace('.html', '');
+            }
+            
+            // Clean up the code
+            productCode = productCode.trim().toUpperCase();
+            
+            // Check if product exists in our map
+            const productPage = productMap[productCode] || productMap[productCode.toLowerCase()];
+            
+            if (productPage) {
+                showStatus('Product found! Redirecting...', 'success');
+                setTimeout(() => {
+                    window.location.href = productPage;
+                }, 1000);
+            } else {
+                showStatus(`Product code "${code}" not found. Please try again or contact support.`, 'error');
+            }
+        }
+
+        function onScanSuccess(decodedText, decodedResult) {
+            console.log(`Scan result: ${decodedText}`, decodedResult);
+            
+            // Stop scanning
+            html5QrCode.stop().then(() => {
+                isScanning = false;
+                readerDiv.classList.add('hidden');
+                scanBtnText.textContent = 'Start Scanning';
+                scanBtn.classList.remove('bg-red-500', 'from-red-500', 'to-red-600');
+                scanBtn.classList.add('from-emerald-500', 'to-emerald-600');
+                
+                // Redirect to product page
+                redirectToProduct(decodedText);
+            }).catch(err => {
+                console.error('Error stopping scanner:', err);
+            });
+        }
+
+        function onScanError(errorMessage) {
+            // Ignore scan errors (they're very common while scanning)
+            // console.warn(`Scan error: ${errorMessage}`);
+        }
+
+        scanBtn.addEventListener('click', async () => {
+            if (!isScanning) {
+                try {
+                    initialState.classList.add('hidden');
+                    readerDiv.classList.remove('hidden');
+                    statusMessage.classList.add('hidden');
+                    
+                    if (!html5QrCode) {
+                        html5QrCode = new Html5Qrcode("reader");
+                    }
+                    
+                    // Start scanning
+                    await html5QrCode.start(
+                        { facingMode: "environment" },
+                        {
+                            fps: 10,
+                            qrbox: { width: 250, height: 250 }
+                        },
+                        onScanSuccess,
+                        onScanError
+                    );
+                    
+                    isScanning = true;
+                    scanBtnText.textContent = 'Stop Scanning';
+                    scanBtn.classList.remove('from-emerald-500', 'to-emerald-600');
+                    scanBtn.classList.add('bg-red-500', 'from-red-500', 'to-red-600');
+                    
+                } catch (err) {
+                    console.error('Error starting scanner:', err);
+                    showStatus('Unable to access camera. Please ensure camera permissions are granted.', 'error');
+                    readerDiv.classList.add('hidden');
+                    initialState.classList.remove('hidden');
+                }
+            } else {
+                // Stop scanning
+                html5QrCode.stop().then(() => {
+                    isScanning = false;
+                    readerDiv.classList.add('hidden');
+                    initialState.classList.remove('hidden');
+                    scanBtnText.textContent = 'Start Scanning';
+                    scanBtn.classList.remove('bg-red-500', 'from-red-500', 'to-red-600');
+                    scanBtn.classList.add('from-emerald-500', 'to-emerald-600');
+                }).catch(err => {
+                    console.error('Error stopping scanner:', err);
+                });
+            }
+        });
+
+        // Manual entry functionality
+        manualEntryBtn.addEventListener('click', () => {
+            manualEntryForm.classList.toggle('hidden');
+            productCodeInput.focus();
+        });
+
+        submitCodeBtn.addEventListener('click', () => {
+            const code = productCodeInput.value.trim();
+            if (code) {
+                redirectToProduct(code);
+            } else {
+                showStatus('Please enter a product code', 'error');
+            }
+        });
+
+        productCodeInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                submitCodeBtn.click();
+            }
+        });
+    </script>
+
+</body>
+</html>
