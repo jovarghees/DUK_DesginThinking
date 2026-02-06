@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FoodPrint - Track Your Food Journey</title>
+    <title>FoodPrint Scanner - Track Your Food Journey</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
@@ -62,10 +62,10 @@
                     <i class="fas fa-qrcode text-white text-4xl"></i>
                 </div>
                 <h2 class="text-2xl md:text-3xl font-bold text-slate-800 mb-2">
-                    Track Your Food Journey
+                    Trace Your Food's Journey
                 </h2>
                 <p class="text-slate-600 text-sm md:text-base">
-                    Scan the QR code on your package to see its complete journey from farm to table
+                    Scan the QR code to see the complete datasheet from farm to fork
                 </p>
             </div>
 
@@ -109,7 +109,7 @@
                         <input 
                             type="text" 
                             id="product-code-input"
-                            placeholder="Enter product code (e.g., 88201)"
+                            placeholder="Enter product code or URL"
                             class="flex-1 px-4 py-3 border-2 border-slate-300 rounded-xl focus:border-emerald-500 focus:outline-none"
                         />
                         <button 
@@ -150,7 +150,7 @@
     <footer class="bg-white border-t border-slate-200 py-6 mt-8">
         <div class="max-w-4xl mx-auto px-4 text-center">
             <p class="text-xs text-slate-500">
-                © 2026 FoodPrint. Empowering transparency in food production.
+                © 2026 FoodPrint. Tracing every footprint from farm to fork.
             </p>
         </div>
     </footer>
@@ -169,13 +169,21 @@
         const productCodeInput = document.getElementById('product-code-input');
         const submitCodeBtn = document.getElementById('submit-code-btn');
 
-        // Product code mapping - add your products here
+        // Product code mapping - maps codes to GitHub-hosted pages
         const productMap = {
-            '88201': 'index_eatapioca.html',
-            'eatapioca': 'index_eatapioca.html',
-            'TAP-88201': 'index_eatapioca.html',
-            // Add more products here as needed
-            // 'PRODUCT_CODE': 'product_page.html',
+            // Hopple Chips - GitHub hosted
+            'hopple': 'https://jovarghees.github.io/DUK_DesginThinking/hopple_chips.html',
+            'hopple_chips': 'https://jovarghees.github.io/DUK_DesginThinking/hopple_chips.html',
+            'eatapioca': 'https://jovarghees.github.io/DUK_DesginThinking/hopple_chips.html',
+            'smokey': 'https://jovarghees.github.io/DUK_DesginThinking/hopple_chips.html',
+            'barbeque': 'https://jovarghees.github.io/DUK_DesginThinking/hopple_chips.html',
+            'HOP-BBQ-2026': 'https://jovarghees.github.io/DUK_DesginThinking/hopple_chips.html',
+            
+            // Direct GitHub URL recognition
+            'https://jovarghees.github.io/DUK_DesginThinking/hopple_chips.html': 'https://jovarghees.github.io/DUK_DesginThinking/hopple_chips.html',
+            
+            // Local file fallback (for testing)
+            'local': 'hopple_chips.html',
         };
 
         function showStatus(message, type = 'info') {
@@ -193,30 +201,48 @@
             statusMessage.classList.remove('hidden');
         }
 
-        function redirectToProduct(code) {
-            // Extract product code from QR data if it's a URL or complex string
-            let productCode = code;
+        function redirectToProduct(scannedData) {
+            console.log('Scanned data:', scannedData);
             
-            // If it's a URL, try to extract the product code
-            if (code.includes('http') || code.includes('www')) {
-                const urlParts = code.split('/');
-                productCode = urlParts[urlParts.length - 1].replace('.html', '');
-            }
-            
-            // Clean up the code
-            productCode = productCode.trim().toUpperCase();
-            
-            // Check if product exists in our map
-            const productPage = productMap[productCode] || productMap[productCode.toLowerCase()];
-            
-            if (productPage) {
-                showStatus('Product found! Redirecting...', 'success');
+            // Check if it's already a full URL to the GitHub page
+            if (scannedData.includes('jovarghees.github.io/DUK_DesginThinking/hopple_chips.html')) {
+                showStatus('Product found! Redirecting to FoodPrint datasheet...', 'success');
                 setTimeout(() => {
-                    window.location.href = productPage;
+                    window.location.href = scannedData;
                 }, 1000);
-            } else {
-                showStatus(`Product code "${code}" not found. Please try again or contact support.`, 'error');
+                return;
             }
+            
+            // Extract product code from various formats
+            let productCode = scannedData.toLowerCase().trim();
+            
+            // Remove common prefixes/suffixes
+            productCode = productCode.replace(/^#/, '');
+            productCode = productCode.replace(/\s+/g, '_');
+            
+            // Check direct mapping
+            if (productMap[productCode]) {
+                showStatus('Product found! Redirecting to FoodPrint datasheet...', 'success');
+                setTimeout(() => {
+                    window.location.href = productMap[productCode];
+                }, 1000);
+                return;
+            }
+            
+            // Check if it contains any known keywords
+            const keywords = ['hopple', 'eatapioca', 'smokey', 'barbeque'];
+            for (let keyword of keywords) {
+                if (productCode.includes(keyword)) {
+                    showStatus('Product found! Redirecting to FoodPrint datasheet...', 'success');
+                    setTimeout(() => {
+                        window.location.href = 'https://jovarghees.github.io/DUK_DesginThinking/hopple_chips.html';
+                    }, 1000);
+                    return;
+                }
+            }
+            
+            // If no match found
+            showStatus(`Product code "${scannedData}" not found. Please try again or enter manually.`, 'error');
         }
 
         function onScanSuccess(decodedText, decodedResult) {
@@ -226,6 +252,7 @@
             html5QrCode.stop().then(() => {
                 isScanning = false;
                 readerDiv.classList.add('hidden');
+                initialState.classList.remove('hidden');
                 scanBtnText.textContent = 'Start Scanning';
                 scanBtn.classList.remove('bg-red-500', 'from-red-500', 'to-red-600');
                 scanBtn.classList.add('from-emerald-500', 'to-emerald-600');
@@ -239,7 +266,6 @@
 
         function onScanError(errorMessage) {
             // Ignore scan errors (they're very common while scanning)
-            // console.warn(`Scan error: ${errorMessage}`);
         }
 
         scanBtn.addEventListener('click', async () => {
@@ -301,7 +327,7 @@
             if (code) {
                 redirectToProduct(code);
             } else {
-                showStatus('Please enter a product code', 'error');
+                showStatus('Please enter a product code or URL', 'error');
             }
         });
 
